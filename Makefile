@@ -68,7 +68,7 @@ latexmkrc: .latexmkrc
 branch=wip
 draft:
 	git checkout -b $(branch)
-	git commmit -m "WIP" --allow-empty
+	git commit -m "WIP" --allow-empty
 	git push -u origin $(branch)
 	hub compare
 
