@@ -44,8 +44,9 @@ pdf: $(MAIN_SRC).pdf
 $(MAIN_SRC).pdf: $(TEX_SRCS) $(STY_SRCS) $(BIB_SRCS) $(FIGS)
 	$(PDF_BUILD_CMD)
 
+target=$(MAIN_SRC).tex
 watch:
-	$(WATCH_CMD)
+	$(WATCH_CMD) $(target)
 
 clean:
 	$(RMCMD) *.dvi *.aux *.toc *.log *.bbl *.blg *~ *.bak *.synctex.gz *.pdf *.fdb_latexmk *.fls
@@ -54,11 +55,11 @@ clean:
 docker: PDF_BUILD_CMD=$(DOCKER_CMD) $(LATEXMK_CMD)
 docker: $(MAIN_SRC).pdf
 
-all-docker: PDF_BUILD_CMD=$(DOCKER_CMD) $(LATEXMK_CMD)
-all-docker: clean $(MAIN_SRC).pdf
+docker-all: PDF_BUILD_CMD=$(DOCKER_CMD) $(LATEXMK_CMD)
+docker-all: clean $(MAIN_SRC).pdf
 
 docker-watch:
-	$(DOCKER_CMD) $(WATCH_CMD) -view=none
+	$(DOCKER_CMD) $(WATCH_CMD) -view=none $(target)
 
 .latexmkrc:
 	$(DOCKER_CMD) cp /.latexmkrc ./
