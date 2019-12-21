@@ -1,8 +1,8 @@
 {
     "name": "thesis-template-master",
     "scripts": {
-        "lint": "textlint *.tex",
-        "lint-style": "textlint -f checkstyle *.tex"
+        "lint": "textlint */*.tex",
+        "lint-style": "textlint -f checkstyle */*.tex"
     },
     "dependencies": {
         "@textlint-rule/textlint-rule-no-invalid-control-character": "^1.2.0",
