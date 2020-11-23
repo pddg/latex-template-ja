@@ -1,7 +1,7 @@
 SHELL := /bin/sh
 
 MAIN_SRC := main
-DOCKER_IMAGE=pddg/latex:1.2.0
+DOCKER_IMAGE=pddg/latex:2.0.0
 
 # TeX sources
 STY_SRCS=$(wildcard ./*.sty)
