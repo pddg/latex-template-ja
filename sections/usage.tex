@@ -1,6 +1,5 @@
-\documentclass[../main]{subfiles}
-
-\setcounter{section}{1}
+%! TEX root = ../main.tex
+\documentclass[main]{subfiles}
 
 \begin{document}
 \section{使用方法}
@@ -22,7 +21,7 @@ Windows・UbuntuではTeX Live 2019を，macOSではMacTeX 2019を用いてい�
     \item Docker Desktop for Windows（Windows）
     \item Docker Desktop for Mac（macOS）
     \item GNU Make 3.8 or later
-    \item hub version 2.12.0 or later（https://github.com/github/hub）
+    \item (Optional) hub version 2.12.0 or later（https://github.com/github/hub）
 \end{itemize}
 
 ただし，これは完璧に動作することを保証したものではありません．使用者の環境によっては一部機能等がうまく動作しない可能性もあります．
@@ -58,27 +57,29 @@ Windows・UbuntuではTeX Live 2019を，macOSではMacTeX 2019を用いてい�
 
 \subsection{Makefileによる各種操作}
 
-\subsubsection{\code{make pdf}および\code{make docker}}
+PDFの生成に関連した操作は全て、デフォルトでDockerコンテナを利用します。これは \code{USE\_DOCKER} という環境変数によって制御されています。デフォルトでは \code{USE\_DOCKER=yes} です。
+Dockerは不要でネイティブで動かしたい場合、\code{USE\_DOCKER=no}とすることでこれを無効化できます。
+
+\subsubsection{\code{make pdf}}
 
 main.texをコンパイルし，完全なPDFを生成するコマンドです．前者はホストのLaTeXを，後者はコンテナ上のLaTeXを使用してコンパイルします．このコマンドでは\code{\textbackslash subfile}によって分割したファイルを個別にコンパイルすることはサポートされていません．
 
-
 このツールは全体を通してコンパイルにはlatexmkを使用します．デフォルトで使用されている.latexmkrcをカスタマイズするには，\ref{sec:mklatexmkrc}をご覧ください．
 
-\subsubsection{\code{make watch}および\code{make docker-watch}}
+\subsubsection{\code{make watch}}
 
-latexmkrcによる変更検知時の自動ビルドを実行します．前者のコマンドを使用した場合，viewerの指定があればビルドしたPDFを開きます．後者のコマンドでは，Dockerコンテナ内からホスト上のPDFビューワを開くことができないため，\code{-view=none}として開かないようにしています．自動リロードに対応したPDFビューワで開くと，ビルドの度に自動で変更が反映されます．
+latexmkrcによる変更検知時の自動ビルドを実行します．Dockerを利用しない場合，viewerの指定があればビルドしたPDFを開きます．Dockerを利用する場合、Dockerコンテナ内からホスト上のPDFビューワを開くことができないため，\code{-view=none}として開かないようにしています．自動リロードに対応したPDFビューワで開くと，ビルドの度に自動で変更が反映されます．
 
 
 このコマンドでは分割したファイルの個別コンパイルをサポートしています．例えば以下の様に実行することで，sections/usage.texだけをusage.pdfとして閲覧することが可能です．
 
-\begin{verbatim}
-    $ make watch target=sections/usage
-\end{verbatim}
+\begin{lstlisting}
+    $ make watch target=sections/usage.tex
+\end{lstlisting}
 
 targetの指定が無い場合，main.texを監視してコンパイルします．
 
-\subsubsection{\code{make all}および\code{make docker-all}}
+\subsubsection{\code{make all}}
 
 TeXソースのコンパイルを行う前に，前回のコンパイルによる生成物を全て破棄してコンパイルを実行します．
 
@@ -91,13 +92,12 @@ TeXソースのコンパイルを行う前に，前回のコンパイルによ�
 現在のブランチから新しいブランチを切り，空のcommitを行ってリモートへpushします．その後，hubコマンドを利用してPull Request作成のページを標準のブラウザで表示します．実行時にブランチ名を指定することが出来ます．指定しない場合，デフォルトの値である\code{WIP}が使用されます．
 
 \begin{lstlisting}
-    $ make draft branch=ブランチ名
+    $ make draft branch=NAME
 \end{lstlisting}
 
 \subsubsection{\code{make latexmkrc}}
 \label{sec:mklatexmkrc}
 
 コンテナ内で使用されている.latexmkrcをこのディレクトリ直下にコピーします．これを編集することで，latexmkの動作をカスタマイズすることができます．
-
 
 \end{document}
