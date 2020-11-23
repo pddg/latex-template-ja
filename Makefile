@@ -42,30 +42,42 @@ endif
 
 .DEFAULT_GOAL := pdf
 
+.PHONY: all
 all: clean pdf
 
+.PHONY: pdf
 pdf: $(MAIN_SRC).pdf
 
 $(MAIN_SRC).pdf: $(TEX_SRCS) $(STY_SRCS) $(BIB_SRCS) $(FIGS)
 	$(LATEXMK_CMD)
 
 target=$(MAIN_SRC).tex
+.PHONY: watch
 watch:
 	$(LATEXMK_CMD) $(WATCH_OPTION) $(target)
 
+.PHONY: clean
 clean:
 	$(LATEXMK_CMD) -C
 
 .latexmkrc:
 	$(DOCKER_CMD) cp /.latexmkrc ./
 
+.PHONY: latexmkrc
 latexmkrc: .latexmkrc
 
+.PHONY: lint
+lint:
+	npm run lint
+
+.PHONY: fix
+fix:
+	npm run fix
+
 branch=wip
+.PHONY: draft
 draft:
 	git checkout -b $(branch)
 	git commit -m "WIP" --allow-empty
 	git push -u origin $(branch)
 	hub compare
-
-.PHONY: all pdf clean watch docker docker-watch latexmkrc draft

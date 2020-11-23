@@ -16,13 +16,15 @@
 
 Windows・UbuntuではTeX Live 2019を，macOSではMacTeX 2019を用いています．その他のツールの要求バージョンは以下の通りです．
 
+% textlint-disable ja-technical-writing/sentence-length
 \begin{itemize}
     \item Docker CE 18.09 or later（Linux）
     \item Docker Desktop for Windows（Windows）
     \item Docker Desktop for Mac（macOS）
     \item GNU Make 3.8 or later
-    \item (Optional) hub version 2.12.0 or later（https://github.com/github/hub）
+    \item (Optional) hub version 2.12.0 or later（https://GitHub.com/GitHub/hub）
 \end{itemize}
+% textlint-enable ja-technical-writing/sentence-length
 
 ただし，これは完璧に動作することを保証したものではありません．使用者の環境によっては一部機能等がうまく動作しない可能性もあります．
 
@@ -41,63 +43,61 @@ Windows・UbuntuではTeX Live 2019を，macOSではMacTeX 2019を用いてい�
                 \code{make draft branch=ブランチ名}で新しいブランチが切られ，
                 Pull Request発行の画面がブラウザで開くので，タイトル等を入力する．
             \item 通常通りtexソースを編集してcommitおよびpush
-            \item textlintによる校正結果がreviewdogによりレビューとして投稿されるので，それを参考に修正を行う．
-            \item ある程度書けたら共著者や教員・先輩など，内容へのレビューを行ってくれる人をレビュアーとしてアサインする．
+            \item textlintによる校正結果がreviewdogによりレビューとして投稿されるので，それを参考に修正する．
+            \item ある程度書けたら共著者や教員・先輩など，内容をレビューする人をレビュアーとしてアサインする．
             \item レビュアーの指摘を元に修正
             \item 全ての指摘を修正し，加筆の必要がなくなった時点でmasterへマージする
             \item ローカルのリポジトリでmasterをチェックアウトしてgit pullする．
-            \item 1へ戻る
+            \item 1へ戻る．
         \end{enumerate}
 \end{description}
 
-このイテレーションをセクションごとに行います．一つのセクションが大きい場合，その中の切りの良い単位で区切り，複数に分けて行います．一つのPull Requestによる加筆が図表等抜きで10ページを超えるようなら，変更のサイズが大きすぎるかも知れません．より小さい単位の細かいPull Requestへ分けることを推奨します．
+このイテレーションをセクションごとに行います．1つのセクションが大きい場合，その中の切りの良い単位で区切り，複数に分けて行います．1つのPull Requestによる加筆が図表等抜きで10ページを超えるようなら，変更のサイズが大きすぎるかも知れません．より小さい単位の細かいPull Requestへ分けることを推奨します．
 
-
-また，一人で複数の章を同時並行で編集する場合や，複数人がそれぞれ異なる章を単一ファイルで編集する場合，容易にコンフリクトが発生し得ます．これを避けるため，大きな章ごとにsubfilesパッケージと\code{\textbackslash subfile}を使用してソースファイルを分割することを推奨します．これを使用すると，各子セクションを個別にコンパイルすることができ，かつ，親となるTeXソースのプリアンブルを共有する事が出来ます．構成などはこのテンプレートを参考にしてください．
+また，一人で複数の章を同時並行で編集する場合や，複数人がそれぞれ異なる章を単一ファイルで編集する場合，容易にコンフリクトが発生し得ます．これを避けるため，大きな章ごとにsubfilesパッケージと\code{\textbackslash subfile}を使用してソースファイルを分割することを推奨します．これを使用すると，各子セクションを個別にコンパイルでき，かつ，親となるTeXソースのプリアンブルを共有する事が出来ます．構成などはこのテンプレートを参考にしてください．
 
 \subsection{Makefileによる各種操作}
 
-PDFの生成に関連した操作は全て、デフォルトでDockerコンテナを利用します。これは \code{USE\_DOCKER} という環境変数によって制御されています。デフォルトでは \code{USE\_DOCKER=yes} です。
-Dockerは不要でネイティブで動かしたい場合、\code{USE\_DOCKER=no}とすることでこれを無効化できます。
+PDFの生成に関連した操作は全て，デフォルトでDockerコンテナを利用します．これは \code{USE\_DOCKER} という環境変数によって制御されています．デフォルトでは \code{USE\_DOCKER=yes} です．
+Dockerは不要でネイティブで動かしたい場合，\code{USE\_DOCKER=no}とすることでこれを無効化できます．
 
-\subsubsection{\code{make pdf}}
+\subsubsection{make pdf}
 
 main.texをコンパイルし，完全なPDFを生成するコマンドです．前者はホストのLaTeXを，後者はコンテナ上のLaTeXを使用してコンパイルします．このコマンドでは\code{\textbackslash subfile}によって分割したファイルを個別にコンパイルすることはサポートされていません．
 
 このツールは全体を通してコンパイルにはlatexmkを使用します．デフォルトで使用されている.latexmkrcをカスタマイズするには，\ref{sec:mklatexmkrc}をご覧ください．
 
-\subsubsection{\code{make watch}}
+\subsubsection{make watch}
 
-latexmkrcによる変更検知時の自動ビルドを実行します．Dockerを利用しない場合，viewerの指定があればビルドしたPDFを開きます．Dockerを利用する場合、Dockerコンテナ内からホスト上のPDFビューワを開くことができないため，\code{-view=none}として開かないようにしています．自動リロードに対応したPDFビューワで開くと，ビルドの度に自動で変更が反映されます．
+latexmkrcによる変更検知時の自動ビルドを実行します．Dockerを利用しない場合，viewerの指定があればビルドしたPDFを開きます．Dockerを利用する場合，Dockerコンテナ内からホスト上のPDFビューワを開くことができないため，\code{-view=none}として開かないようにしています．自動リロードに対応したPDFビューワで開くと，ビルドの度に自動で変更が反映されます．
 
 
-このコマンドでは分割したファイルの個別コンパイルをサポートしています．例えば以下の様に実行することで，sections/usage.texだけをusage.pdfとして閲覧することが可能です．
+このコマンドでは分割したファイルの個別コンパイルをサポートしています．例えば以下の様に実行することで，sections/usage.texだけをusage.pdfとして閲覧できます．
 
 \begin{lstlisting}
     $ make watch target=sections/usage.tex
 \end{lstlisting}
-
 targetの指定が無い場合，main.texを監視してコンパイルします．
 
-\subsubsection{\code{make all}}
+\subsubsection{make all}
 
 TeXソースのコンパイルを行う前に，前回のコンパイルによる生成物を全て破棄してコンパイルを実行します．
 
-\subsubsection{\code{make clean}}
+\subsubsection{make clean}
 
-コンパイルによる成果物を全て破棄します．最終成果物であるPDFも含めて破棄されることに注意してください．
+コンパイルによる成果物を全て破棄します．最終成果物のPDFも含めて破棄されることに注意してください．
 
-\subsubsection{\code{make draft}}
+\subsubsection{make draft}
 
-現在のブランチから新しいブランチを切り，空のcommitを行ってリモートへpushします．その後，hubコマンドを利用してPull Request作成のページを標準のブラウザで表示します．実行時にブランチ名を指定することが出来ます．指定しない場合，デフォルトの値である\code{WIP}が使用されます．
+現在のブランチから新しいブランチを切り，空のcommitを行ってリモートへpushします．その後，hubコマンドを利用してPull Request作成のページを標準のブラウザで表示します．実行時にブランチ名を指定することが出来ます．指定しない場合，デフォルト値の\code{WIP}が使用されます．
 
 \begin{lstlisting}
     $ make draft branch=NAME
 \end{lstlisting}
 
-\subsubsection{\code{make latexmkrc}}
+\subsubsection{make latexmkrc}
 \label{sec:mklatexmkrc}
 
-コンテナ内で使用されている.latexmkrcをこのディレクトリ直下にコピーします．これを編集することで，latexmkの動作をカスタマイズすることができます．
+コンテナ内で使用されている.latexmkrcをこのディレクトリ直下にコピーします．これを編集することで，latexmkの動作をカスタマイズできます．
 
 \end{document}
