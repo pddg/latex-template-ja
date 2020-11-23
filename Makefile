@@ -16,16 +16,17 @@ FIG_PDF=$(wildcard $(FIG_DIR)/*.pdf)
 FIGS=$(FIG_PNG) $(FIG_JPG) $(FIG_EPS) $(FIG_PDF)
 
 ifeq "$(OS)" "Windows_NT"
+	# Windows uses Docker Desktop.
 	UIDOPT=
-	RMCMD=cmd.exe /C del
 else
 	UNAME=$(shell uname)
-	RMCMD=rm -f
-	ifeq ($(UNAME), Linux)
+	ifeq "$(UNAME)" "Linux"
+		# Exec docker with the UID and GID as same as the login user.
 		UID=$(shell id -u)
 		GID=$(shell id -g)
 		UIDOPT=-u $(UID):$(GID)
 	else
+		# This section is for macOS. It uses Docker Desktop, too.
 		UIDOPT=
 	endif
 endif
@@ -58,7 +59,7 @@ watch:
 
 .PHONY: clean
 clean:
-	$(LATEXMK_CMD) -C
+	$(LATEXMK_CMD) -C $(TEX_SRCS)
 
 .latexmkrc:
 	$(DOCKER_CMD) cp /.latexmkrc ./
