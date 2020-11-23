@@ -10,6 +10,12 @@ on:
     tags:
       - "v*"
 
+env:
+  # MakefileでDockerを使う機能を無効にする
+  USE_DOCKER: no
+  # 生成するファイルの名前。
+  ARTIFACT_NAME: main.pdf
+
 # 実行されるジョブの定義
 jobs:
   # PDFのビルドジョブ
@@ -30,7 +36,7 @@ jobs:
 
       # 実際のビルドは `bin/build.sh` を実行している
       - name: Build
-        run: bash bin/build.sh
+        run: ./bin/build.sh
 
       # 生成したPDFをGitHub Actionsにアップロードする
       - name: Upload artifact
@@ -38,7 +44,7 @@ jobs:
         with:
           name: pdf
           # アップロードするファイルを変更する場合、以下を変える
-          path: ./main.pdf
+          path: ./${{ env.ARTIFACT_NAME }}
 
   # GitHubのReleaseを作成するジョブ
   # v1.0.0のようなタグがpushされた時のみ実行
@@ -77,6 +83,6 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           # アップロードするファイルを変更する場合、以下を変える
-          asset_path: ./main.pdf
-          asset_name: main.pdf
+          asset_path: ./${{ env.ARTIFACT_NAME }}
+          asset_name: ${{ env.ARTIFACT_NAME }}
           asset_content_type: application/pdf
