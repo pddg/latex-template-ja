@@ -1,11 +1,19 @@
+# textlintでの文法チェックのワークフロー
 name: Lint
+
+# Reviewdogでの指摘を有効に使うため、pull requestでのみ有効
 on:
   pull_request:
     # Pull Requestかつ
-    # TeXファイルに変更があった場合にこのWorkflowを実行
+    # 以下のファイルに変更があった場合、このWorkflowを実行
     paths:
+      - "prh.yml"
+      - ".textlintrc"
+      - "package.json"
+      - "package-lock.json"
       - ".github/workflows/lint.yaml"
       - "**.tex"
+
 jobs:
   lint:
     runs-on: ubuntu-18.04
@@ -21,10 +29,10 @@ jobs:
       - name: Setup node environment
         uses: actions/setup-node@v1
         with:
-          node-version: "13.x"
+          node-version: "14.x"
 
       - name: Restore cache if available
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -33,7 +41,7 @@ jobs:
 
       - name: Restore reviewdog if available
         id: reviewdogcache
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/bin
           key: ${{ runner.os }}-${{ env.REVIEWDOG_VER }}
@@ -45,11 +53,13 @@ jobs:
         run: |
           mkdir -p $HOME/bin && curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh| sh -s -- -b $HOME/bin v$REVIEWDOG_VER
 
+      # 依存関係の構築とtextlintの実行
       - name: Run lint
         run: |
           npm ci
           npm run lint
 
+      # ↑のステップでtextlintが違反を検知した場合のみ実行
       - name: Run reviewdog
         if: failure()
         env:
