@@ -27,6 +27,7 @@
 *.fdb_latexmk
 *.fls
 *.pdf
+!/figures/*.pdf
 
 # Ignore node_modules
 node_modules/
