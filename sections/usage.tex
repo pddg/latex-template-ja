@@ -25,6 +25,7 @@ Windows・UbuntuではTeX Live 2019を，macOSではMacTeX 2019を用いてい�
     % textlint-disable prh
     \item (Optional) hub version 2.12.0 or later（https://github.com/github/hub）
     % textlint-enable prh
+    \item (Optional) Nodejs v12.0.0 or later
 \end{itemize}
 % textlint-enable ja-technical-writing/sentence-length
 
@@ -63,15 +64,33 @@ Windows・UbuntuではTeX Live 2019を，macOSではMacTeX 2019を用いてい�
 PDFの生成に関連した操作は全て，デフォルトでDockerコンテナを利用します．これは \code{USE\_DOCKER} という環境変数によって制御されています．デフォルトでは \code{USE\_DOCKER=yes} です．
 Dockerは不要でネイティブで動かしたい場合，\code{USE\_DOCKER=no}とすることでこれを無効化できます．
 
+また，Windowsで利用する場合は\lstlistingname\ref{code:powershell-env}および\lstlistingname\ref{code:cmd-env}のようにすることでDockerの有効無効を切り替えることが出来ます．
+
+% textlint-disable ja-technical-writing/sentence-length,ja-technical-writing/no-doubled-joshi
+\begin{lstlisting}[caption={Powershellの場合},label={code:powershell-env}]
+    C:\Users\You> # 無効にする
+    C:\Users\You> $env:USE_DOCKER="no"
+    C:\Users\You> # 有効にする
+    C:\Users\You> $env:USE_DOCKER="yes"
+\end{lstlisting}
+
+\begin{lstlisting}[caption={cmd.exeの場合},label={code:cmd-env}]
+    C:\Users\You> rem 無効にする
+    C:\Users\You> set USE_DOCKER=no
+    C:\Users\You> rem 有効にする
+    C:\Users\You> set USE_DOCKER=yes
+\end{lstlisting}
+% textlint-enable ja-technical-writing/sentence-length,ja-technical-writing/no-doubled-joshi
+
 \subsubsection{make pdf}
 
-main.texをコンパイルし，完全なPDFを生成するコマンドです．前者はホストのLaTeXを，後者はコンテナ上のLaTeXを使用してコンパイルします．このコマンドでは\code{\textbackslash subfile}によって分割したファイルを個別にコンパイルすることはサポートされていません．
+main.texをコンパイルし，完全なPDFを生成するコマンドです．このコマンドでは\code{\textbackslash subfile}によって分割したファイルを個別にコンパイルすることはサポートされていません．
 
 このツールは全体を通してコンパイルにはlatexmkを使用します．デフォルトで使用されている.latexmkrcをカスタマイズするには，\ref{sec:mklatexmkrc}をご覧ください．
 
 \subsubsection{make watch}
 
-latexmkrcによる変更検知時の自動ビルドを実行します．Dockerを利用しない場合，viewerの指定があればビルドしたPDFを開きます．Dockerを利用する場合，Dockerコンテナ内からホスト上のPDFビューワを開くことができないため，\code{-view=none}として開かないようにしています．自動リロードに対応したPDFビューワで開くと，ビルドの度に自動で変更が反映されます．
+latexmkによる変更検知時の自動ビルドを実行します．Dockerを利用しない場合，viewerの指定があればビルドしたPDFを開きます．Dockerを利用する場合，Dockerコンテナ内からホスト上のPDFビューワを開くことができないため，\code{-view=none}として開かないようにしています．自動リロードに対応したPDFビューワで開くと，ビルドの度に自動で変更が反映されます．
 
 
 このコマンドでは分割したファイルの個別コンパイルをサポートしています．例えば以下の様に実行することで，sections/usage.texだけをusage.pdfとして閲覧できます．
@@ -101,5 +120,15 @@ TeXソースのコンパイルを行う前に，前回のコンパイルによ�
 \label{sec:mklatexmkrc}
 
 コンテナ内で使用されている.latexmkrcをこのディレクトリ直下にコピーします．これを編集することで，latexmkの動作をカスタマイズできます．
+
+\subsubsection{make lint}
+\label{sec:mklint}
+
+GitHub Actions上で実行されるlintをローカルでも実行します。事前にNodejsをインストールし\code{npm install}を実行しておく必要があります。
+
+\subsubsection{make fix}
+\label{sec:mkfix}
+
+lintに違反したもののうち、自動校正が可能なものについて校正を実行します。これは例えばprhなどによる表記揺れ訂正が対応しています。\ref{sec:mklint}と同様に、事前にNodejsのインストールと\code{npm install}の実行が必要です。
 
 \end{document}
