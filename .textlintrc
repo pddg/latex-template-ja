@@ -5,7 +5,10 @@
     "filters": {
         "comments": true,
         "allowlist": {
-            "allow": []
+            "allow": [
+                "github.com",
+                "github.com/github/"
+            ]
         }
     },
     "rules": {
