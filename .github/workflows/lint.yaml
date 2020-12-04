@@ -17,6 +17,7 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-18.04
+    timeout-minutes: 10
     env:
       # reviewdogのバージョンを固定
       REVIEWDOG_VER: 0.11.0
