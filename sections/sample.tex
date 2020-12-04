@@ -24,4 +24,23 @@
 
 複数のルールを無視したい場合は，ルール名をカンマで区切って書きます．
 
+\subsection{新規分割ファイルの追加}
+
+LaTeX Workshopのためにマジックコメントを追加する必要があります．具体的には\lstlistingname\ref{code:newpage}のように記述します．
+
+% textlint-disable
+\begin{lstlisting}[caption=新章の追加テンプレート,language=tex,label=code:newpage]
+    %! TEX root = ../main.tex
+    \documentclass[main]{subfiles}
+
+    \begin{document}
+
+    \section{新セクション}
+
+    これはサンプルの文章です
+
+    \end{document}
+\end{lstlisting}
+% textlint-enable
+
 \end{document}
