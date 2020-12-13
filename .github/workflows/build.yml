@@ -45,6 +45,7 @@ jobs:
   # GitHubのReleaseを作成するジョブ
   # v1.0.0のようなタグがpushされた時のみ実行
   release:
+    needs: build
     runs-on: ubuntu-18.04
     steps:
       # ビルドジョブでアップロードしたPDFをここでダウンロード
