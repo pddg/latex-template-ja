@@ -19,16 +19,6 @@ Dockerイメージは以下の箇所で利用されています．
 
 \subsection{Lintが終わらない・タイムアウトする}
 
-インライン数式を記述する際に\code{\$}を使用しないで下さい．
-これは大幅なパフォーマンス劣化を引き起こす可能性があります．
-
-
-例えば\(x^2\-1=0\)の解は\(x=1,-1\)です，という文章は\lstlistingname\ref{code:inlinemath}の様に記述できます．
-
-\begin{lstlisting}[caption={インライン数式の記述例},label={code:inlinemath}]
-    \(x^2-1=0\)の解は\(x=1,-1\)です。
-\end{lstlisting}
-
 このテンプレートのGitHub ActionsワークフローではLintが時間を使い切らないように，タイムアウトが10分に設定されています．
 大規模なTeXソースではこの時間中に収まらない可能性もあります．
 
