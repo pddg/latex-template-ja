@@ -40,25 +40,27 @@ Windows・UbuntuではTeX Live 2019を，macOSではMacTeX 2019を用いてい�
     \label{fig:workflow}
 \end{figure}
 
+% textlint-disable ja-technical-writing/sentence-length
 \begin{description}
     \item[前提]　\\
-        masterブランチに居る
+        masterブランチに居る．
     \item[これからすること]　\\
-        新しい章を書き始める
+        新しい章を書き始める．
     \item[手順]　\\
         \begin{enumerate}
             \item ブランチを切り空のPull Requestを発行する．
                 \code{make draft branch=ブランチ名}で新しいブランチが切られ，
                 Pull Request発行の画面がブラウザで開くので，タイトル等を入力する．
-            \item 通常通りtexソースを編集してcommitおよびpush
+            \item 通常通りtexソースを編集してcommitおよびpush．
             \item textlintによる校正結果がreviewdogによりレビューとして投稿されるので，それを参考に修正する．
             \item ある程度書けたら共著者や教員・先輩など，内容をレビューする人をレビュアーとしてアサインする．
-            \item レビュアーの指摘を元に修正
-            \item 全ての指摘を修正し，加筆の必要がなくなった時点でmasterへマージする
+            \item レビュアーの指摘を元に修正．
+            \item 全ての指摘を修正し，加筆の必要がなくなった時点でmasterへマージする．
             \item ローカルのリポジトリでmasterをチェックアウトしてgit pullする．
             \item 1へ戻る．
         \end{enumerate}
 \end{description}
+% textlint-enable ja-technical-writing/sentence-length
 
 このイテレーションをセクションごとに行います．1つのセクションが大きい場合，その中の切りの良い単位で区切り，複数に分けて行います．1つのPull Requestによる加筆が図表等抜きで10ページを超えるようなら，変更のサイズが大きすぎるかも知れません．より小さい単位の細かいPull Requestへ分けることを推奨します．
 
