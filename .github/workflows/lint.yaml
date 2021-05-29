@@ -30,7 +30,7 @@ jobs:
           node-version: "14.x"
 
       - name: Restore cache if available
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2.1.6
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
