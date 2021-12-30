@@ -16,26 +16,17 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
       - name: Setup node environment
         uses: actions/setup-node@v2.5.0
         with:
-          node-version: "14.x"
-
-      - name: Restore cache if available
-        uses: actions/cache@v2.1.7
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          cache: npm
+          node-version: "16.x"
 
       - uses: reviewdog/action-setup@v1
         with:
@@ -44,7 +35,7 @@ jobs:
       # 依存関係の構築とtextlintの実行
       - name: Run lint
         run: |
-          npm ci
+          npm install
           npm run lint
 
       # ↑のステップでtextlintが違反を検知した場合のみ実行
