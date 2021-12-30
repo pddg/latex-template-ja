@@ -47,6 +47,9 @@ jobs:
     needs: build
     runs-on: ubuntu-20.04
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       # ビルドジョブでアップロードしたPDFをここでダウンロード
       - name: Download artifact
         uses: actions/download-artifact@v2
@@ -59,4 +62,5 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create ${{ github.ref }} -n "Release ${{ github.ref }}" ./${{ env.ARTIFACT_NAME }}
+          VERSION=$(echo ${{ github.ref }} | sed -e "s#refs/tags/##g")
+          gh release create ${VERSION} -n "Release ${VERSION}" ./${{ env.ARTIFACT_NAME }}
