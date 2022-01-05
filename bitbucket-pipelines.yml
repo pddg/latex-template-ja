@@ -13,6 +13,8 @@ definitions:
           - main.pdf
         after-script:
           - bash bin/upload_bitbucket.sh
+        services:
+          - docker
 image: pddg/latex:3.0.0
 pipelines:
   branches:
