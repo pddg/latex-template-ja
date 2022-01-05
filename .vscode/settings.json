@@ -21,7 +21,7 @@
     "latex-workshop.latex.rootFile.useSubFile": true,
     "latex-workshop.intellisense.file.base": "both",
     "latex-workshop.docker.enabled": true,
-    "latex-workshop.docker.image.latex": "pddg/latex:2.0.0",
+    "latex-workshop.docker.image.latex": "pddg/latex:3.0.0",
     "latex-workshop.intellisense.package.enabled": true,
     "latex-workshop.latex.clean.subfolder.enabled": true,
     "latex-workshop.latex.autoClean.run": "onFailed",
