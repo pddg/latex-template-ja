@@ -21,7 +21,7 @@ And Docker is required.
 - Docker 18.06 or later
 - Docker Desktop for Windows
 
-This repository will use TeX Live 2020 on Ubuntu 20.04 LTS. See https://github.com/pddg/latex-docker to get more detail.
+This repository will use TeX Live 2021 on Ubuntu 20.04 LTS. See https://github.com/pddg/latex-docker to get more detail.
 
 VSCode is recommended tool to edit TeX sources.
 
