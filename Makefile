@@ -1,6 +1,6 @@
 MAIN_SRC=main
 USE_DOCKER?=yes
-DOCKER_IMAGE=pddg/latex:3.0.0
+DOCKER_IMAGE=ghcr.io/pddg/latex:3.1.0
 
 # TeX sources
 STY_SRCS=$(wildcard ./*.sty)
