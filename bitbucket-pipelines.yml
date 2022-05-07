@@ -15,7 +15,7 @@ definitions:
           - bash bin/upload_bitbucket.sh
         services:
           - docker
-image: ghcr.io/pddg/latex:3.0.0
+image: ghcr.io/pddg/latex:3.1.0
 pipelines:
   branches:
     master:
