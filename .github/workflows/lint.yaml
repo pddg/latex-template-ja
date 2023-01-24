@@ -16,6 +16,10 @@ on:
 
 jobs:
   lint:
+    permissions:
+      checks: write
+      contents: read
+      pull-requests: write
     runs-on: ubuntu-20.04
     timeout-minutes: 10
     steps:
