@@ -63,4 +63,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VERSION=$(echo ${{ github.ref }} | sed -e "s#refs/tags/##g")
-          gh release create ${VERSION} -t "${VERSION}" ./${{ env.ARTIFACT_NAME }}
+          gh release create ${VERSION} --generate-notes ./${{ env.ARTIFACT_NAME }}
